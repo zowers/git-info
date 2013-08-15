@@ -1,0 +1,154 @@
+=head1 P4 COMMANDS IN GIT
+
+=head2 Editing commands
+
+=head3 help
+
+C<git help command> provides help for a specific command
+
+C<git help> lists common commnads
+
+C<man git> full listing
+
+=head3 add
+
+Adding a new file to git uses the C<add> command too. Note that in git C<add>
+does more.
+
+However, it must be noted that C<git add> adds the B<current> version of the
+file to the index, to be staged for a commit.
+
+This means that
+
+	git add file
+	vim file
+	git commit
+
+will not commit the changes made after C<git add file> was run, you will need
+to C<git add> again before you run C<git commit>.
+
+=head3 edit
+
+Since C<edit> provides advisory locking, it isn't applicable to a system like git.
+
+C<git add> must be used to add all changes to a file after editing it, and
+before a commit.
+
+This also applies to files which are already in the repository, but were changed.
+
+C<git add --patch> can stage only parts of the file.
+
+=head3 delete
+
+C<git rm>
+
+=head3 revert
+
+C<git stash> can temporarily revert changes to the work tree, but keep them
+available for later reapplication.
+
+C<git reset --hard> discards all changes to the work tree.
+
+C<git checkout file> checks out a file, reverting only it.
+
+C<git clean> can be used to remove untracked files from the working tree. Only
+somewhat related related, but nevertheless useful. C<git clean -xfd> removes
+all untracked files.
+
+=head3 diff
+
+C<git diff>
+
+=head2 Branching & Merging
+
+=head3 integrate
+
+C<git cherry-pick> applies a specific change from another branch to the current
+one. C<git-cherry> can be used to find commits that haven't been merged.
+
+C<git merge> can be used to merge a whole branch.
+
+C<git checkout -b> is used to create a new branch.
+
+=head3 resolve
+
+C<git mergetool>
+
+=head3 describe
+
+C<git show 123decafbad> shows a specific commit. It a wide array of formatting
+options.
+
+=head2 History
+
+=head3 changes, filelog
+
+C<git log> lists comitted changes to the current branch.
+
+To view "pending" changes a la P4 C<git cherry> or C<git log> can be used on
+someone else's branch, but their changes must be published.
+
+=head2 Sharing Changes
+
+=head3 sync
+
+C<git pull> fetches changes and merges them using C<git rebase>.
+
+For more fine grained control over syncing C<git fetch> and C<git rebase> may
+be used. C<git fetch> only mirrors the change objects so they are locally
+available, while C<rebase> merges local commits with remote commits to the same
+branch (amongst other things it does).
+
+=head3 change & submit
+
+P4 coordinates people's committed and pending work in a much more centralized
+way, so there is no direct equivalent of C<change>, not a need for it.
+
+C<git push> can be used to submit a change any upstream repository the user has
+write access to, much like C<p4 submit> does.
+
+When managing the creation of a commit some similarities exist between git's
+concept of the index and p4's pending changes mechanism. Using C<git stash>,
+C<git add> and C<git rebase> or C<git commit --amend>, but generally this
+manipulation applies to committed but unshared changes, wheras in perforce
+these changes are not committed yet.
+
+=head2 Misc
+
+=head3 opened
+
+C<git status>
+
+=head3 groups
+
+=head3 client
+
+=head3 clients
+
+=head3 user
+
+=head3 users
+
+FIXME some of these concepts map to gitosis/gitorious type setups, but don't
+apply to git itself
+
+=head3 depots
+
+Not applicable to git, every depot is kind of like its own repository.
+
+=head1 SEE ALSO
+
+by Yuval Kogman http://www.nntp.perl.org/group/perl.perl5.porters/2008/09/msg139661.html
+
+=over 4
+
+=item L<http://eagain.net/articles/git-for-computer-scientists/>
+
+Explains how git's object database works. Very helpful to "get" git if you are
+comfortable with data structures.
+
+=item L<http://git.or.cz/course/svn.html>
+
+Git tutorial for people comfortable with subversion.
+
+=back

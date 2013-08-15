@@ -1,0 +1,221 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>P4 COMMANDS IN GIT</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body style="background-color: white">
+
+<h1><a name="p4_commands_in_git">P4 COMMANDS IN GIT</a></h1>
+<p>by Yuval Kogman http://www.nntp.perl.org/group/perl.perl5.porters/2008/09/msg139661.html</p>
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+		<li><a href="#editing_commands">Editing commands</a></li>
+		<ul>
+
+			<li><a href="#help">help</a></li>
+			<li><a href="#add">add</a></li>
+			<li><a href="#edit">edit</a></li>
+			<li><a href="#delete">delete</a></li>
+			<li><a href="#revert">revert</a></li>
+			<li><a href="#diff">diff</a></li>
+		</ul>
+
+		<li><a href="#branching___merging">Branching &amp; Merging</a></li>
+		<ul>
+
+			<li><a href="#integrate">integrate</a></li>
+			<li><a href="#resolve">resolve</a></li>
+			<li><a href="#describe">describe</a></li>
+		</ul>
+
+		<li><a href="#history">History</a></li>
+		<ul>
+
+			<li><a href="#changes__filelog">changes, filelog</a></li>
+		</ul>
+
+		<li><a href="#sharing_changes">Sharing Changes</a></li>
+		<ul>
+
+			<li><a href="#sync">sync</a></li>
+			<li><a href="#change___submit">change &amp; submit</a></li>
+		</ul>
+
+		<li><a href="#misc">Misc</a></li>
+		<ul>
+
+			<li><a href="#opened">opened</a></li>
+			<li><a href="#groups">groups</a></li>
+			<li><a href="#client">client</a></li>
+			<li><a href="#clients">clients</a></li>
+			<li><a href="#user">user</a></li>
+			<li><a href="#users">users</a></li>
+			<li><a href="#depots">depots</a></li>
+		</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<p>
+</p>
+<h2><a name="editing_commands">Editing commands</a></h2>
+<p>
+</p>
+<h3><a name="help">help</a></h3>
+<p><code>git help command</code> provides help for a specific command</p>
+<p><code>git help</code> lists common commnads</p>
+<p><code>man git</code> full listing</p>
+<p>
+</p>
+<h3><a name="add">add</a></h3>
+<p>Adding a new file to git uses the <code>add</code> command too. Note that in git <code>add</code>
+does more.</p>
+<p>However, it must be noted that <code>git add</code> adds the <strong>current</strong> version of the
+file to the index, to be staged for a commit.</p>
+<p>This means that</p>
+<pre>
+        git add file
+        vim file
+        git commit</pre>
+<p>will not commit the changes made after <code>git add file</code> was run, you will need
+to <code>git add</code> again before you run <code>git commit</code>.</p>
+<p>
+</p>
+<h3><a name="edit">edit</a></h3>
+<p>Since <code>edit</code> provides advisory locking, it isn't applicable to a system like git.</p>
+<p><code>git add</code> must be used to add all changes to a file after editing it, and
+before a commit.</p>
+<p>This also applies to files which are already in the repository, but were changed.</p>
+<p><code>git add --patch</code> can stage only parts of the file.</p>
+<p>
+</p>
+<h3><a name="delete">delete</a></h3>
+<p><code>git rm</code></p>
+<p>
+</p>
+<h3><a name="revert">revert</a></h3>
+<p><code>git stash</code> can temporarily revert changes to the work tree, but keep them
+available for later reapplication.</p>
+<p><code>git reset --hard</code> discards all changes to the work tree.</p>
+<p><code>git checkout file</code> checks out a file, reverting only it.</p>
+<p><code>git clean</code> can be used to remove untracked files from the working tree. Only
+somewhat related related, but nevertheless useful. <code>git clean -xfd</code> removes
+all untracked files.</p>
+<p>
+</p>
+<h3><a name="diff">diff</a></h3>
+<p><code>git diff</code></p>
+<p>
+</p>
+<h2><a name="branching___merging">Branching &amp; Merging</a></h2>
+<p>
+</p>
+<h3><a name="integrate">integrate</a></h3>
+<p><code>git cherry-pick</code> applies a specific change from another branch to the current
+one. <code>git-cherry</code> can be used to find commits that haven't been merged.</p>
+<p><code>git merge</code> can be used to merge a whole branch.</p>
+<p><code>git checkout -b</code> is used to create a new branch.</p>
+<p>
+</p>
+<h3><a name="resolve">resolve</a></h3>
+<p><code>git mergetool</code></p>
+<p>
+</p>
+<h3><a name="describe">describe</a></h3>
+<p><code>git show 123decafbad</code> shows a specific commit. It a wide array of formatting
+options.</p>
+<p>
+</p>
+<h2><a name="history">History</a></h2>
+<p>
+</p>
+<h3><a name="changes__filelog">changes, filelog</a></h3>
+<p><code>git log</code> lists comitted changes to the current branch.</p>
+<p>To view &quot;pending&quot; changes a la P4 <code>git cherry</code> or <code>git log</code> can be used on
+someone else's branch, but their changes must be published.</p>
+<p>
+</p>
+<h2><a name="sharing_changes">Sharing Changes</a></h2>
+<p>
+</p>
+<h3><a name="sync">sync</a></h3>
+<p><code>git pull</code> fetches changes and merges them using <code>git rebase</code>.</p>
+<p>For more fine grained control over syncing <code>git fetch</code> and <code>git rebase</code> may
+be used. <code>git fetch</code> only mirrors the change objects so they are locally
+available, while <code>rebase</code> merges local commits with remote commits to the same
+branch (amongst other things it does).</p>
+<p>
+</p>
+<h3><a name="change___submit">change &amp; submit</a></h3>
+<p>P4 coordinates people's committed and pending work in a much more centralized
+way, so there is no direct equivalent of <code>change</code>, not a need for it.</p>
+<p><code>git push</code> can be used to submit a change any upstream repository the user has
+write access to, much like <code>p4 submit</code> does.</p>
+<p>When managing the creation of a commit some similarities exist between git's
+concept of the index and p4's pending changes mechanism. Using <code>git stash</code>,
+<code>git add</code> and <code>git rebase</code> or <code>git commit --amend</code>, but generally this
+manipulation applies to committed but unshared changes, wheras in perforce
+these changes are not committed yet.</p>
+<p>
+</p>
+<h2><a name="misc">Misc</a></h2>
+<p>
+</p>
+<h3><a name="opened">opened</a></h3>
+<p><code>git status</code></p>
+<p>
+</p>
+<h3><a name="groups">groups</a></h3>
+<p>
+</p>
+<h3><a name="client">client</a></h3>
+<p>
+</p>
+<h3><a name="clients">clients</a></h3>
+<p>
+</p>
+<h3><a name="user">user</a></h3>
+<p>
+</p>
+<h3><a name="users">users</a></h3>
+<p>FIXME some of these concepts map to gitosis/gitorious type setups, but don't
+apply to git itself</p>
+<p>
+</p>
+<h3><a name="depots">depots</a></h3>
+<p>Not applicable to git, every depot is kind of like its own repository.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<dl>
+<dt><strong><a name="http_eagain_net_articles_git_for_computer_scientists" class="item"><a href="http://eagain.net/articles/git-for-computer-scientists/">http://eagain.net/articles/git-for-computer-scientists/</a></a></strong></dt>
+
+<dd>
+<p>Explains how git's object database works. Very helpful to &quot;get&quot; git if you are
+comfortable with data structures.</p>
+</dd>
+<dt><strong><a name="http_git_or_cz_course_svn_html" class="item"><a href="http://git.or.cz/course/svn.html">http://git.or.cz/course/svn.html</a></a></strong></dt>
+
+<dd>
+<p>Git tutorial for people comfortable with subversion.</p>
+</dd>
+</dl>
+
+</body>
+
+</html>
